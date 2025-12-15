@@ -198,23 +198,37 @@ Visit `http://127.0.0.1:8000/admin/` after creating a superuser.
 
 ## 🚀 Deployment
 
-### Heroku
-1. Create a `Procfile`:
-   ```
-   web: gunicorn projecthack.wsgi --log-file -
-   ```
-2. Set environment variables
-3. Deploy: `git push heroku main`
+ProjectHack is ready to deploy! See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
 
-### Railway/Render
-1. Connect your GitHub repository
-2. Set environment variables
-3. Deploy automatically on push
+### Quick Deploy Options:
 
-### Environment Variables
-- `SECRET_KEY` - Django secret key
+**🆓 Free Options:**
+- **[Render](https://render.com)** ⭐ Recommended - Easiest setup, free tier
+- **[Railway](https://railway.app)** - Simple deployment, good free tier
+- **[Fly.io](https://fly.io)** - Global edge deployment
+- **[PythonAnywhere](https://www.pythonanywhere.com)** - Beginner-friendly
+
+**💰 Paid Options:**
+- **Heroku** - Established platform ($7/month)
+- **DigitalOcean** - Simple pricing ($5/month)
+
+### Quick Start (Render - Recommended):
+
+1. Sign up at [render.com](https://render.com)
+2. Create new Web Service → Connect GitHub repo
+3. Build Command: `pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput`
+4. Start Command: `gunicorn projecthack.wsgi`
+5. Set Environment Variables:
+   - `SECRET_KEY` - Generate with: `python generate_secret_key.py`
+   - `DEBUG=False`
+   - `ALLOWED_HOSTS=your-app-name.onrender.com`
+
+### Environment Variables Needed:
+- `SECRET_KEY` - Django secret key (generate new one for production)
 - `DEBUG` - Set to `False` in production
-- `ALLOWED_HOSTS` - Your domain(s)
+- `ALLOWED_HOSTS` - Your domain(s), comma-separated
+
+**📖 Full deployment guide:** See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions for all platforms.
 
 ## 🛣️ Roadmap
 
