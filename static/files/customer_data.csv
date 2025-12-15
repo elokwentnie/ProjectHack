@@ -1,0 +1,17 @@
+CustomerID,Name,Age,City,Country,TotalPurchases,TotalSpent,LastPurchaseDate
+C001,John Smith,32,New York,USA,15,2450.50,2024-02-10
+C002,Emily Johnson,28,London,UK,8,1200.75,2024-02-08
+C003,Michel Chen,35,Tokyo,Japan,22,3890.25,2024-02-12
+C004,Sarah Williams,29,Sydney,Australia,12,1890.00,2024-02-05
+C005,David Brown,41,Toronto,Canada,18,2750.80,2024-02-11
+C006,Lisa Anderson,26,Paris,France,9,1450.30,2024-02-07
+C007,Michael Garcia,38,Berlin,Germany,20,3200.60,2024-02-09
+C008,Jennifer Lee,31,Seoul,South Korea,14,2100.40,2024-02-06
+C009,Robert Martinez,45,Mexico City,Mexico,25,4500.90,2024-02-13
+C010,Amanda Taylor,27,Amsterdam,Netherlands,11,1650.20,2024-02-04
+C011,James Wilson,36,Singapore,Singapore,16,2800.70,2024-02-11
+C012,Maria Rodriguez,33,Barcelona,Spain,13,1950.10,2024-02-08
+C013,Christopher Moore,39,Dubai,UAE,19,3450.50,2024-02-12
+C014,Jessica Thompson,30,Stockholm,Sweden,10,1750.30,2024-02-05
+C015,Daniel White,42,Mumbai,India,21,3650.80,2024-02-10
+

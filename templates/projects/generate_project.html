@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Generate Custom Project - ProjectHack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto space-y-8 fade-in">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-4 gradient-text-animated">
+                Generate Your Custom Project 🎨
+            </h1>
+            <p class="text-xl text-gray-300">
+                Tell us what you want to build, and we'll create a personalized project just for you!
+            </p>
+        </div>
+
+        <!-- Form -->
+        <div class="glass-light rounded-2xl p-8 md:p-12">
+            <form method="post" class="space-y-8">
+                {% csrf_token %}
+                
+                <!-- Track Selection -->
+                <div>
+                    <label class="block text-lg font-bold text-white mb-4">
+                        What type of project? <span class="text-red-400">*</span>
+                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for track_code, track_name in tracks %}
+                            <label class="relative cursor-pointer group">
+                                <input type="radio" name="track" value="{{ track_code }}" 
+                                       class="peer sr-only" required>
+                                <div class="glass-light border-2 border-white/10 rounded-xl p-5 text-center
+                                            transition-all duration-300 peer-checked:border-indigo-500 
+                                            peer-checked:bg-gradient-to-br peer-checked:from-indigo-500/20 peer-checked:to-purple-500/20
+                                            peer-checked:shadow-xl hover:border-indigo-400/50 hover:shadow-lg card-hover">
+                                    <div class="font-bold text-white text-lg">{{ track_name }}</div>
+                                    <div class="absolute top-2 right-2 w-5 h-5 border-2 border-gray-500 rounded-full peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all">
+                                        <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Difficulty Selection -->
+                <div>
+                    <label class="block text-lg font-bold text-white mb-4">
+                        Difficulty Level <span class="text-red-400">*</span>
+                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {% for diff_code, diff_name in difficulties %}
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="difficulty" value="{{ diff_code }}" 
+                                       class="peer sr-only" required>
+                                <div class="glass-light border-2 border-white/10 rounded-xl p-5 text-center
+                                            transition-all duration-300 peer-checked:border-indigo-500 
+                                            peer-checked:bg-gradient-to-br peer-checked:from-indigo-500/20 peer-checked:to-purple-500/20
+                                            peer-checked:shadow-xl hover:border-indigo-400/50 hover:shadow-lg card-hover">
+                                    <div class="font-bold text-white text-lg mb-2">{{ diff_name }}</div>
+                                    {% if diff_code == 'beginner' %}
+                                        <p class="text-xs text-gray-400">Perfect for getting started</p>
+                                    {% elif diff_code == 'intermediate' %}
+                                        <p class="text-xs text-gray-400">Build on your skills</p>
+                                    {% else %}
+                                        <p class="text-xs text-gray-400">Challenge yourself</p>
+                                    {% endif %}
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Timeframe Selection -->
+                <div>
+                    <label class="block text-lg font-bold text-white mb-4">
+                        Time Commitment <span class="text-red-400">*</span>
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {% for tf_code, tf_name in timeframes %}
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="timeframe" value="{{ tf_code }}" 
+                                       class="peer sr-only" required>
+                                <div class="glass-light border-2 border-white/10 rounded-xl p-5 text-center
+                                            transition-all duration-300 peer-checked:border-indigo-500 
+                                            peer-checked:bg-gradient-to-br peer-checked:from-indigo-500/20 peer-checked:to-purple-500/20
+                                            peer-checked:shadow-xl hover:border-indigo-400/50 hover:shadow-lg card-hover">
+                                    <div class="font-bold text-white text-lg">{{ tf_name }}</div>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Keywords Input -->
+                <div>
+                    <label for="keywords" class="block text-lg font-bold text-white mb-3">
+                        Keywords (optional)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="keywords"
+                        name="keywords" 
+                        placeholder="E-commerce, Dashboard, API, Social Media..."
+                        class="w-full glass-light border-2 border-white/10 rounded-xl p-4 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
+                    >
+                    <p class="text-sm text-gray-400 mt-2">
+                        Separate keywords with commas. Examples: 
+                        {% for keyword in sample_keywords|slice:":5" %}
+                            {{ keyword }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+
+                <!-- Interests Input -->
+                <div>
+                    <label for="interests" class="block text-lg font-bold text-white mb-3">
+                        Your Interests (optional)
+                    </label>
+                    <textarea 
+                        id="interests"
+                        name="interests" 
+                        rows="3"
+                        placeholder="What topics or domains interest you? (e.g., Music, Travel, Fitness, Education...)"
+                        class="w-full glass-light border-2 border-white/10 rounded-xl p-4 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
+                    ></textarea>
+                    <p class="text-sm text-gray-400 mt-2">
+                        Tell us what you're passionate about, and we'll tailor the project to your interests!
+                    </p>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex space-x-4 pt-4">
+                    <a href="{% url 'projects:home' %}" 
+                       class="flex-1 glass-light border-2 border-white/10 rounded-xl p-4 text-center font-bold text-white hover:border-indigo-400/50 transition-all">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="flex-1 btn-primary text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center space-x-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span>Generate Project</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Box -->
+        <div class="glass-light border border-blue-500/20 rounded-xl p-6">
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-2">How it works</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        We'll create a custom project with step-by-step guidance based on your preferences. 
+                        The project will include all the steps, technologies, and learning outcomes you need to complete it within your chosen timeframe.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Visual feedback for radio buttons
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Update visual state for all radios in the same group
+            const name = this.name;
+            document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                const card = r.closest('label').querySelector('div');
+                if (r.checked) {
+                    card.classList.add('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl');
+                } else {
+                    card.classList.remove('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+

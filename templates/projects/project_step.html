@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block title %}Step {{ current_step.step_number }} - {{ user_session.project.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .progress-bar {
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .timer-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto animate-fade-in">
+    <!-- Header with Timer and Progress -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-6 md:p-8 mb-6 animate-scale-in">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-black text-white mb-2">{{ user_session.project.title }}</h1>
+                <p class="text-gray-400 font-medium">Step <span class="font-bold text-indigo-400">{{ current_step.step_number }}</span> of <span class="font-bold text-white">{{ total_steps }}</span></p>
+            </div>
+            <div class="mt-4 md:mt-0 text-right">
+                <div class="text-sm text-gray-400 mb-2 font-medium">Time Remaining</div>
+                <div id="timer" class="text-3xl md:text-4xl font-black bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"></div>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-900 rounded-full h-3 mb-2 shadow-inner border border-white/5">
+            <div class="progress-bar bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-3 rounded-full shadow-lg glow" 
+                 style="width: {{ progress_percentage }}%"></div>
+        </div>
+        <div class="text-sm text-gray-400 font-semibold">{{ progress_percentage }}% Complete</div>
+    </div>
+    
+    <!-- Current Step -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-6 animate-fade-in-up">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-4 md:mb-0">{{ current_step.title }}</h2>
+            <span class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full text-sm font-bold shadow-lg glow w-fit">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                ~{{ current_step.estimated_time }} min
+            </span>
+        </div>
+        
+        <div class="prose prose-invert max-w-none mb-8">
+            <p class="text-gray-300 text-lg leading-relaxed whitespace-pre-line">{{ current_step.description }}</p>
+        </div>
+        
+        {% if current_step.technologies %}
+        <div class="glass-light border border-indigo-500/20 rounded-xl p-6 mb-6 glow">
+            <h3 class="font-bold text-indigo-300 mb-4 text-lg flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+                Technologies in This Step
+            </h3>
+            <div class="flex flex-wrap gap-3">
+                {% for tech in current_step.technologies %}
+                    <span class="px-4 py-2 glass-light border border-indigo-500/30 text-indigo-300 rounded-full text-sm font-semibold shadow-md">{{ tech }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if current_step.learning_outcomes %}
+        <div class="glass-light border border-green-500/20 rounded-xl p-6 mb-6 glow">
+            <h3 class="font-bold text-green-300 mb-3 text-lg flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                </svg>
+                What You'll Learn
+            </h3>
+            <p class="text-green-300 font-medium">{{ current_step.learning_outcomes }}</p>
+        </div>
+        {% endif %}
+        
+        {% if resources %}
+        <div class="glass-light border border-purple-500/20 rounded-xl p-6 mb-6 glow-purple">
+            <h3 class="font-bold text-purple-300 mb-4 text-lg flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                📥 Download Resources
+            </h3>
+            <p class="text-gray-400 text-sm mb-4 font-medium">Download sample data files and resources for this project:</p>
+            <div class="space-y-3">
+                {% for resource in resources %}
+                    <div class="flex items-center justify-between glass-light rounded-xl p-4 border border-purple-500/20 shadow-md hover:shadow-lg transition-all card-hover">
+                        <div class="flex-1">
+                            <div class="font-bold text-white">{{ resource.name }}</div>
+                            {% if resource.description %}
+                                <div class="text-sm text-gray-400 mt-1">{{ resource.description }}</div>
+                            {% endif %}
+                            {% if resource.file_size %}
+                                <div class="text-xs text-gray-500 mt-1 font-medium">{{ resource.file_size }}</div>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'projects:download_resource' resource.id %}" 
+                           class="ml-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-5 py-2.5 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 text-sm font-bold shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Download
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="flex flex-col sm:flex-row gap-4 mt-8">
+            <button onclick="completeStep()" 
+                    class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-4 rounded-xl font-black 
+                           hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-xl hover:shadow-2xl
+                           transform hover:scale-105 flex items-center justify-center space-x-2 glow">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Mark Step as Complete</span>
+            </button>
+            <a href="{% url 'projects:project_summary' user_session.id %}" 
+               class="flex-1 glass-light border border-white/10 text-white px-6 py-4 rounded-xl font-bold 
+                      hover:bg-white/5 transition-all duration-200 shadow-xl hover:shadow-2xl
+                      transform hover:scale-105 text-center flex items-center justify-center">
+                View Summary
+            </a>
+        </div>
+    </div>
+    
+    <!-- All Steps Overview -->
+    <div class="glass rounded-2xl shadow-xl border border-white/10 p-6 md:p-8 animate-fade-in-up">
+        <h3 class="text-2xl font-black text-white mb-6">All Steps</h3>
+        <div class="space-y-3">
+            {% for step in all_steps %}
+                <div class="flex items-center p-4 rounded-xl border transition-all duration-200 card-hover
+                            {% if step.step_number < current_step.step_number %}glass-light border-green-500/30 shadow-md
+                            {% elif step.step_number == current_step.step_number %}glass-light border-indigo-500/50 shadow-lg glow
+                            {% else %}glass-light border-white/5{% endif %}">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center mr-4 font-bold text-sm shadow-lg
+                                {% if step.step_number < current_step.step_number %}bg-gradient-to-r from-green-500 to-emerald-600 text-white
+                                {% elif step.step_number == current_step.step_number %}bg-gradient-to-r from-indigo-500 to-purple-600 text-white
+                                {% else %}bg-gray-700 text-gray-400{% endif %}">
+                        {% if step.step_number < current_step.step_number %}
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        {% else %}
+                            {{ step.step_number }}
+                        {% endif %}
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-bold text-white">{{ step.title }}</div>
+                        <div class="text-sm text-gray-400 mt-1">{{ step.estimated_time }} min</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    
+    let remainingSeconds = {{ remaining_seconds }};
+    const sessionId = {{ user_session.id }};
+    
+    function updateTimer() {
+        const hours = Math.floor(remainingSeconds / 3600);
+        const minutes = Math.floor((remainingSeconds % 3600) / 60);
+        const seconds = remainingSeconds % 60;
+        
+        const timerElement = document.getElementById('timer');
+        if (remainingSeconds <= 0) {
+            timerElement.textContent = 'Time\'s Up!';
+            timerElement.classList.remove('bg-gradient-to-r', 'from-indigo-400', 'via-purple-400', 'to-pink-400', 'bg-clip-text', 'text-transparent');
+            timerElement.classList.add('text-red-400');
+        } else {
+            timerElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        if (remainingSeconds > 0) {
+            remainingSeconds--;
+        }
+    }
+    
+    // Initialize timer from server
+    async function initTimer() {
+        try {
+            const response = await fetch(`/session/${sessionId}/timer/`);
+            const data = await response.json();
+            if (data.remaining_seconds !== undefined) {
+                remainingSeconds = data.remaining_seconds;
+                updateTimer();
+            }
+        } catch (error) {
+            console.error('Timer init error:', error);
+        }
+    }
+    
+    // Update timer every second
+    setInterval(updateTimer, 1000);
+    initTimer();
+    
+    // Sync with server every 30 seconds
+    setInterval(async () => {
+        try {
+            const response = await fetch(`/session/${sessionId}/timer/`);
+            const data = await response.json();
+            if (data.remaining_seconds !== undefined) {
+                remainingSeconds = data.remaining_seconds;
+            }
+        } catch (error) {
+            console.error('Timer sync error:', error);
+        }
+    }, 30000);
+    
+    async function completeStep() {
+        if (!confirm('Mark this step as complete and move to the next step?')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/session/${sessionId}/complete-step/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                if (data.completed) {
+                    window.location.href = `/session/${sessionId}/summary/`;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                alert('Error completing step. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error completing step. Please try again.');
+        }
+    }
+</script>
+{% endblock %}

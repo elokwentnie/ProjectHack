@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - ProjectHack{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto animate-fade-in">
+    <a href="{% url 'projects:home' %}" class="inline-flex items-center text-gray-400 hover:text-white mb-6 transition-colors group">
+        <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Back to Projects
+    </a>
+    
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-8 animate-scale-in">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-4 md:mb-0">{{ project.title }}</h1>
+            <span class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-sm font-bold shadow-lg glow-purple w-fit">
+                {{ project.get_difficulty_display }}
+            </span>
+        </div>
+        
+        <div class="mb-6">
+            <span class="inline-flex items-center px-3 py-1.5 glass-light text-indigo-300 rounded-lg text-sm font-semibold border border-indigo-500/20">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                {{ project.get_track_display }}
+            </span>
+        </div>
+        
+        <div class="prose prose-invert max-w-none mb-8">
+            <p class="text-gray-300 text-lg leading-relaxed whitespace-pre-line">{{ project.description }}</p>
+        </div>
+        
+        <div class="border-t border-white/10 pt-8">
+            <h3 class="text-2xl font-black text-white mb-2">Choose Your Timeframe</h3>
+            <p class="text-gray-400 mb-6">Select how much time you want to dedicate to this project:</p>
+            
+            {% if timeframes %}
+                <form method="post" action="{% url 'projects:start_project' project.id %}" id="timeframe-form">
+                    {% csrf_token %}
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        {% for timeframe_code, timeframe_name in timeframes %}
+                            <label class="relative cursor-pointer block" for="timeframe-{{ timeframe_code }}">
+                                <input type="radio" name="timeframe" value="{{ timeframe_code }}" 
+                                       class="peer sr-only" required id="timeframe-{{ timeframe_code }}">
+                                <div class="timeframe-option glass-light border-2 border-white/10 rounded-xl p-5 text-center 
+                                            transition-all duration-300 hover:border-indigo-400/50 hover:shadow-lg card-hover"
+                                     data-timeframe="{{ timeframe_code }}">
+                                    <div class="font-bold text-white text-lg mb-1">{{ timeframe_name }}</div>
+                                    <div class="text-xs text-gray-400 font-medium">Solo Hackathon</div>
+                                    <div class="absolute top-2 right-2 w-6 h-6 border-2 border-gray-500 rounded-full timeframe-check flex items-center justify-center transition-all">
+                                        <svg class="w-4 h-4 text-white opacity-0 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    
+                    <div id="timeframe-error" class="hidden mb-4 p-4 bg-red-500/20 border border-red-500/50 rounded-xl">
+                        <p class="text-red-300 font-semibold">Please select a timeframe before starting the project.</p>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="btn-primary w-full md:w-auto text-white px-10 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center space-x-2">
+                        <span>Start Project</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </button>
+                </form>
+                
+                <script>
+                    // Update visual state when radio button is selected
+                    function updateTimeframeSelection() {
+                        // Remove all selected states
+                        document.querySelectorAll('.timeframe-option').forEach(option => {
+                            option.classList.remove('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
+                            const check = option.querySelector('.timeframe-check');
+                            check.classList.remove('border-indigo-500', 'bg-indigo-500');
+                            check.querySelector('svg').classList.add('opacity-0');
+                            check.querySelector('svg').classList.remove('opacity-100');
+                        });
+                        
+                        // Add selected state to checked radio
+                        const checked = document.querySelector('input[name="timeframe"]:checked');
+                        if (checked) {
+                            const option = checked.closest('label').querySelector('.timeframe-option');
+                            option.classList.add('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
+                            const check = option.querySelector('.timeframe-check');
+                            check.classList.add('border-indigo-500', 'bg-indigo-500');
+                            check.querySelector('svg').classList.remove('opacity-0');
+                            check.querySelector('svg').classList.add('opacity-100');
+                            
+                            // Hide error message
+                            document.getElementById('timeframe-error').classList.add('hidden');
+                        }
+                    }
+                    
+                    // Initialize on page load
+                    updateTimeframeSelection();
+                    
+                    // Handle radio button changes
+                    document.querySelectorAll('input[name="timeframe"]').forEach(radio => {
+                        radio.addEventListener('change', updateTimeframeSelection);
+                        radio.addEventListener('click', updateTimeframeSelection);
+                    });
+                    
+                    // Also handle clicks on the option divs directly
+                    document.querySelectorAll('.timeframe-option').forEach(option => {
+                        option.addEventListener('click', function(e) {
+                            const radio = this.closest('label').querySelector('input[type="radio"]');
+                            if (radio && !radio.checked) {
+                                radio.checked = true;
+                                updateTimeframeSelection();
+                            }
+                        });
+                    });
+                    
+                    // Form validation with better error handling
+                    document.getElementById('timeframe-form').addEventListener('submit', function(e) {
+                        const selected = document.querySelector('input[name="timeframe"]:checked');
+                        if (!selected) {
+                            e.preventDefault();
+                            document.getElementById('timeframe-error').classList.remove('hidden');
+                            // Scroll to error
+                            document.getElementById('timeframe-error').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            return false;
+                        }
+                    });
+                </script>
+            {% else %}
+                <div class="glass border-l-4 border-yellow-500 rounded-xl p-6 glow">
+                    <p class="text-yellow-300 font-bold text-lg mb-2">⚠️ This project is not yet configured</p>
+                    <p class="text-gray-400 text-sm mb-4">This project doesn't have any steps available yet. Please run the following command to load projects:</p>
+                    <code class="block bg-gray-900 text-green-400 p-4 rounded-lg text-sm font-mono shadow-inner border border-green-500/20">python3 manage.py load_sample_projects</code>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="glass rounded-2xl p-8 border border-white/10 shadow-2xl">
+        <h3 class="text-2xl font-black text-white mb-6 flex items-center">
+            <span class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-white font-bold mr-3 shadow-lg glow">✓</span>
+            What You'll Learn
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-start space-x-3 glass-light p-4 rounded-xl border border-green-500/20">
+                <svg class="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-300 font-medium">End-to-end project development from concept to working MVP</span>
+            </div>
+            <div class="flex items-start space-x-3 glass-light p-4 rounded-xl border border-green-500/20">
+                <svg class="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-300 font-medium">Time management and project planning skills</span>
+            </div>
+            <div class="flex items-start space-x-3 glass-light p-4 rounded-xl border border-green-500/20">
+                <svg class="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-300 font-medium">Git and GitHub for version control</span>
+            </div>
+            <div class="flex items-start space-x-3 glass-light p-4 rounded-xl border border-green-500/20">
+                <svg class="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-300 font-medium">Technologies relevant to real-world development</span>
+            </div>
+            <div class="flex items-start space-x-3 glass-light p-4 rounded-xl border border-green-500/20 md:col-span-2">
+                <svg class="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-gray-300 font-medium">CV-ready project to showcase to employers</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

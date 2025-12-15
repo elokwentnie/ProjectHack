@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}Project Summary - {{ user_session.project.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto animate-fade-in">
+    <a href="{% url 'projects:home' %}" class="inline-flex items-center text-gray-400 hover:text-white mb-6 transition-colors group">
+        <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Back to Projects
+    </a>
+    
+    <!-- Success Header -->
+    <div class="glass border-2 border-green-500/50 rounded-2xl p-10 mb-8 text-center shadow-2xl glow animate-scale-in">
+        <div class="text-7xl mb-6 animate-pulse-slow">🎉</div>
+        <h1 class="text-4xl md:text-5xl font-black text-white mb-3">Congratulations!</h1>
+        <p class="text-xl text-gray-300 font-semibold">You've completed <span class="gradient-text">{{ user_session.project.title }}</span></p>
+    </div>
+    
+    <!-- Technologies Learned -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-8 animate-fade-in-up">
+        <h2 class="text-3xl font-black text-white mb-8 flex items-center">
+            <span class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg glow">💻</span>
+            Technologies & Skills Learned
+        </h2>
+        <div class="flex flex-wrap gap-3 mb-8">
+            {% for tech in technologies %}
+                <span class="px-5 py-2.5 glass-light border border-indigo-500/30 text-indigo-300 rounded-full font-bold shadow-md">{{ tech }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="border-t border-white/10 pt-8">
+            <h3 class="text-xl font-bold text-white mb-6">Additional Skills Gained</h3>
+            <ul class="space-y-3 text-gray-300">
+                {% for skill in cv_summary.skills_learned %}
+                    {% if skill not in technologies %}
+                        <li class="flex items-start glass-light p-4 rounded-xl border border-green-500/20">
+                            <svg class="w-6 h-6 text-green-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-medium">{{ skill }}</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <!-- CV-Ready Summary -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-8 animate-fade-in-up">
+        <h2 class="text-3xl font-black text-white mb-8 flex items-center">
+            <span class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg glow-purple">📄</span>
+            CV-Ready Summary
+        </h2>
+        <div class="glass-light border border-white/5 rounded-xl p-6 md:p-8 mb-6">
+            <h3 class="font-bold text-white mb-4 text-lg">Project Description:</h3>
+            <p class="text-gray-300 mb-6 leading-relaxed">{{ cv_summary.description }}</p>
+            
+            <h3 class="font-bold text-white mb-4 text-lg">Key Achievements:</h3>
+            <ul class="list-disc list-inside space-y-2 text-gray-300 mb-6">
+                {% for achievement in cv_summary.key_achievements %}
+                    <li class="leading-relaxed">{{ achievement }}</li>
+                {% endfor %}
+            </ul>
+            
+            <h3 class="font-bold text-white mb-4 text-lg">CV Bullet Points:</h3>
+            <ul class="list-disc list-inside space-y-3 text-gray-300">
+                {% for bullet in cv_summary.cv_bullet_points %}
+                    <li class="leading-relaxed">{{ bullet }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <button onclick="copyToClipboard()" 
+                class="btn-primary text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            <span>Copy Summary to Clipboard</span>
+        </button>
+    </div>
+    
+    <!-- GitHub Submission -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-8 animate-fade-in-up">
+        <h2 class="text-3xl font-black text-white mb-6 flex items-center">
+            <span class="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg">🔗</span>
+            Share Your Project
+        </h2>
+        <p class="text-gray-400 mb-6">Submit your GitHub repository link to complete your project:</p>
+        
+        {% if user_session.github_repo %}
+            <div class="glass-light border border-green-500/30 rounded-xl p-5 mb-6 glow">
+                <p class="text-green-300 font-semibold mb-2 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Repository submitted:
+                </p>
+                <a href="{{ user_session.github_repo }}" target="_blank" 
+                   class="text-indigo-400 hover:text-indigo-300 underline font-medium break-all">{{ user_session.github_repo }}</a>
+            </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'projects:submit_project' user_session.id %}">
+            {% csrf_token %}
+            <div class="flex flex-col sm:flex-row gap-4">
+                <input type="url" name="github_repo" 
+                       placeholder="https://github.com/yourusername/your-project" 
+                       value="{{ user_session.github_repo|default:'' }}"
+                       class="flex-1 px-5 py-4 glass-light border border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-white placeholder-gray-500 font-medium">
+                <button type="submit" 
+                        class="btn-primary text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl">
+                    {% if user_session.github_repo %}Update{% else %}Submit{% endif %} Repository
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Next Steps -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 animate-fade-in-up">
+        <h3 class="text-2xl font-black text-white mb-6 flex items-center">
+            <span class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg glow">🚀</span>
+            What's Next?
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4 mb-8">
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">1.</div>
+                <p class="text-gray-300 font-medium">Add this project to your GitHub portfolio</p>
+            </div>
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">2.</div>
+                <p class="text-gray-300 font-medium">Update your CV with the skills and project description above</p>
+            </div>
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">3.</div>
+                <p class="text-gray-300 font-medium">Share your project on LinkedIn with #ProjectHack</p>
+            </div>
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">4.</div>
+                <p class="text-gray-300 font-medium">Start another project to build your portfolio!</p>
+            </div>
+        </div>
+        
+        <a href="{% url 'projects:home' %}" 
+           class="btn-primary inline-flex items-center justify-center w-full md:w-auto text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl">
+            Start Another Project
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard() {
+        const summary = `{{ cv_summary.description }}
+
+Key Achievements:
+{% for achievement in cv_summary.key_achievements %}- {{ achievement }}
+{% endfor %}
+
+Technologies: {{ technologies|join:", " }}
+
+CV Bullet Points:
+{% for bullet in cv_summary.cv_bullet_points %}- {{ bullet }}
+{% endfor %}`;
+        
+        navigator.clipboard.writeText(summary).then(() => {
+            alert('✅ Summary copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            alert('Failed to copy. Please select and copy manually.');
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome! Here Are Your Recommendations{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto space-y-8 fade-in">
+        <!-- Success Message -->
+        <div class="text-center mb-12">
+            <div class="inline-block mb-4 p-4 bg-green-500/20 rounded-full">
+                <svg class="w-16 h-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-4 gradient-text-animated">
+                Perfect! You're all set! 🎉
+            </h1>
+            <p class="text-xl text-gray-300">
+                Based on your preferences, here are some projects we think you'll love:
+            </p>
+        </div>
+
+        <!-- Recommended Projects -->
+        {% if recommended_projects %}
+            <div class="mb-12">
+                <h2 class="text-2xl font-black text-white mb-6 flex items-center">
+                    <span class="gradient-text-animated">✨ Recommended for You</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for project in recommended_projects %}
+                        <div class="glass-light rounded-xl p-6 transition-all card-hover border border-white/10 flex flex-col">
+                            <div class="mb-4 flex-shrink-0">
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold 
+                                    {% if project.difficulty == 'beginner' %}bg-green-500/20 text-green-300
+                                    {% elif project.difficulty == 'intermediate' %}bg-yellow-500/20 text-yellow-300
+                                    {% else %}bg-red-500/20 text-red-300{% endif %}">
+                                    {{ project.get_difficulty_display }}
+                                </span>
+                                <span class="inline-block ml-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300">
+                                    {{ project.get_track_display }}
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-black text-white mb-2 flex-shrink-0">{{ project.title }}</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-3 flex-grow">{{ project.description|truncatewords:20 }}</p>
+                            <a href="{% url 'projects:project_overview' project.id %}" 
+                               class="inline-flex items-center justify-center w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-3 rounded-lg font-bold text-sm transition-all hover:from-indigo-600 hover:to-purple-600 hover:scale-[1.02] active:scale-[0.98] mt-auto">
+                                <span>View Project</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Alternative Projects -->
+        {% if alternative_projects %}
+            <div class="mb-12">
+                <h2 class="text-2xl font-black text-white mb-6">Other Projects You Might Like</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for project in alternative_projects %}
+                        <div class="glass-light rounded-xl p-6 transition-all card-hover border border-white/10 flex flex-col">
+                            <div class="mb-4 flex-shrink-0">
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold 
+                                    {% if project.difficulty == 'beginner' %}bg-green-500/20 text-green-300
+                                    {% elif project.difficulty == 'intermediate' %}bg-yellow-500/20 text-yellow-300
+                                    {% else %}bg-red-500/20 text-red-300{% endif %}">
+                                    {{ project.get_difficulty_display }}
+                                </span>
+                                <span class="inline-block ml-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300">
+                                    {{ project.get_track_display }}
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-black text-white mb-2 flex-shrink-0">{{ project.title }}</h3>
+                            <p class="text-gray-400 text-sm mb-6 line-clamp-3 flex-grow">{{ project.description|truncatewords:20 }}</p>
+                            <a href="{% url 'projects:project_overview' project.id %}" 
+                               class="inline-flex items-center justify-center w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-3 rounded-lg font-bold text-sm transition-all hover:from-indigo-600 hover:to-purple-600 hover:scale-[1.02] active:scale-[0.98] mt-auto">
+                                <span>View Project</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- CTA Buttons -->
+        <div class="text-center space-y-4">
+            <a href="{% url 'projects:home' %}" 
+               class="inline-block btn-primary text-white px-10 py-4 rounded-xl font-black text-lg shadow-xl">
+                Browse All Projects
+            </a>
+            <div>
+                <a href="{% url 'projects:generate_project' %}" 
+                   class="text-indigo-400 hover:text-indigo-300 font-semibold">
+                    Or generate a custom project →
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

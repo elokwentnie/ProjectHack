@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load math_filters %}
+
+{% block title %}Choose Your Focus{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl w-full space-y-8 fade-in">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">Step {{ current_step }} of {{ total_steps }}</span>
+                <span class="text-sm font-medium text-gray-400">{{ current_step }}/{{ total_steps }}</span>
+            </div>
+            <div class="w-full bg-white/5 rounded-full h-2 overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500" 
+                     style="width: {{ current_step|mul:100|div:total_steps }}%"></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="glass-light rounded-2xl p-8 md:p-12">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4">
+                    What would you like to focus on?
+                </h1>
+                <p class="text-xl text-gray-300">
+                    Select your preferred development tracks and preferences.
+                </p>
+            </div>
+
+            <form method="post" class="space-y-8">
+                {% csrf_token %}
+                
+                <!-- Tracks Selection -->
+                <div>
+                    <label class="block text-lg font-bold text-white mb-4">
+                        Development Tracks (select all that interest you)
+                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for track_code, track_name in tracks %}
+                            <label class="relative cursor-pointer group">
+                                <input type="checkbox" name="tracks" value="{{ track_code }}" 
+                                       class="peer sr-only track-checkbox">
+                                <div class="glass-light border-2 border-white/10 rounded-xl p-5 text-center
+                                            transition-all duration-300 peer-checked:border-indigo-500 
+                                            peer-checked:bg-gradient-to-br peer-checked:from-indigo-500/20 peer-checked:to-purple-500/20
+                                            peer-checked:shadow-xl hover:border-indigo-400/50 hover:shadow-lg card-hover">
+                                    <div class="font-bold text-white text-lg mb-2">{{ track_name }}</div>
+                                    <div class="absolute top-2 right-2 w-5 h-5 border-2 border-gray-500 rounded peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all opacity-0 peer-checked:opacity-100">
+                                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Difficulty Preference -->
+                <div>
+                    <label class="block text-lg font-bold text-white mb-4">
+                        Preferred Difficulty Level
+                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {% for diff_code, diff_name in difficulties %}
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="difficulty" value="{{ diff_code }}" 
+                                       class="peer sr-only">
+                                <div class="glass-light border-2 border-white/10 rounded-xl p-4 text-center
+                                            transition-all duration-300 peer-checked:border-indigo-500 
+                                            peer-checked:bg-gradient-to-br peer-checked:from-indigo-500/20 peer-checked:to-purple-500/20
+                                            peer-checked:shadow-xl hover:border-indigo-400/50 hover:shadow-lg card-hover">
+                                    <div class="font-bold text-white">{{ diff_name }}</div>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Timeframe Preference -->
+                <div>
+                    <label class="block text-lg font-bold text-white mb-4">
+                        Preferred Time Commitment
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {% for tf_code, tf_name in timeframes %}
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="timeframe" value="{{ tf_code }}" 
+                                       class="peer sr-only">
+                                <div class="glass-light border-2 border-white/10 rounded-xl p-4 text-center
+                                            transition-all duration-300 peer-checked:border-indigo-500 
+                                            peer-checked:bg-gradient-to-br peer-checked:from-indigo-500/20 peer-checked:to-purple-500/20
+                                            peer-checked:shadow-xl hover:border-indigo-400/50 hover:shadow-lg card-hover">
+                                    <div class="font-bold text-white text-lg">{{ tf_name }}</div>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="flex space-x-4 mt-8">
+                    <a href="{% url 'projects:onboarding_technologies' %}" 
+                       class="flex-1 glass-light border-2 border-white/10 rounded-xl p-4 text-center font-bold text-white hover:border-indigo-400/50 transition-all">
+                        Back
+                    </a>
+                    <button type="submit" 
+                            class="flex-1 btn-primary text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center space-x-2">
+                        <span>Continue</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Visual feedback for checkboxes and radio buttons
+    document.querySelectorAll('.track-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const card = this.closest('label').querySelector('div');
+            if (this.checked) {
+                card.classList.add('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl');
+            } else {
+                card.classList.remove('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl');
+            }
+        });
+    });
+</script>
+{% endblock %}
+

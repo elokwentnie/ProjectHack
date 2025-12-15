@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load math_filters %}
+
+{% block title %}Welcome to ProjectHack{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl w-full space-y-8 fade-in">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">Step {{ current_step }} of {{ total_steps }}</span>
+                <span class="text-sm font-medium text-gray-400">{{ current_step|floatformat:0 }}/{{ total_steps }}</span>
+            </div>
+            <div class="w-full bg-white/5 rounded-full h-2 overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500" 
+                     style="width: {{ current_step|mul:100|div:total_steps }}%"></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="glass-light rounded-2xl p-8 md:p-12 text-center">
+            <div class="mb-8">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4 gradient-text-animated">
+                    Welcome to ProjectHack! 🚀
+                </h1>
+                <p class="text-xl text-gray-300">
+                    Let's personalize your experience. This will only take a minute.
+                </p>
+            </div>
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="text-left">
+                    <label class="block text-lg font-bold text-white mb-4">
+                        What's your experience level?
+                    </label>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {% for level_code, level_name in experience_levels %}
+                            <label class="relative cursor-pointer group">
+                                <input type="radio" name="experience_level" value="{{ level_code }}" 
+                                       class="peer sr-only" required>
+                                <div class="glass-light border-2 border-white/10 rounded-xl p-6 text-left
+                                            transition-all duration-300 peer-checked:border-indigo-500 
+                                            peer-checked:bg-gradient-to-br peer-checked:from-indigo-500/20 peer-checked:to-purple-500/20
+                                            peer-checked:shadow-xl peer-checked:glow hover:border-indigo-400/50 hover:shadow-lg card-hover">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-bold text-white text-lg">{{ level_name }}</span>
+                                        <div class="w-5 h-5 border-2 border-gray-500 rounded-full peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all">
+                                            <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    {% if level_code == 'beginner' %}
+                                        <p class="text-sm text-gray-400">Just starting out? Perfect! We'll guide you step by step.</p>
+                                    {% elif level_code == 'some_experience' %}
+                                        <p class="text-sm text-gray-400">You've dabbled a bit. Let's build on what you know.</p>
+                                    {% elif level_code == 'intermediate' %}
+                                        <p class="text-sm text-gray-400">You're comfortable with basics. Ready for more challenges!</p>
+                                    {% elif level_code == 'advanced' %}
+                                        <p class="text-sm text-gray-400">You're experienced. Let's tackle complex projects!</p>
+                                    {% endif %}
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="btn-primary w-full text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center space-x-2 mt-8">
+                    <span>Continue</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add visual feedback for radio selection
+    document.querySelectorAll('input[name="experience_level"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.querySelectorAll('input[name="experience_level"]').forEach(r => {
+                const card = r.closest('label').querySelector('div');
+                if (r.checked) {
+                    card.classList.add('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
+                    card.classList.remove('border-white/10');
+                } else {
+                    card.classList.remove('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
+                    card.classList.add('border-white/10');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+
