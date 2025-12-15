@@ -36,7 +36,7 @@ Before deploying, make sure:
    - **Runtime:** `Python 3`
    - **Build Command:** 
      ```bash
-     pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+     pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py load_sample_projects
      ```
    - **Start Command:** 
      ```bash
