@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("projects", "0003_userprofile"),
-        ("projects", "0003_usersession_unique_active_session"),
+        ("projects", "0004_usersession_unique_active_session"),
     ]
 
     operations = []
