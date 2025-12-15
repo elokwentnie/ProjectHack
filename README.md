@@ -35,7 +35,10 @@
 
 ## 🎬 Demo
 
-![ProjectHack Screenshot](https://via.placeholder.com/800x400/6366f1/ffffff?text=ProjectHack+Dashboard)
+🔗 Live demo: https://projecthack.onrender.com/
+
+This demo is continuously deployed.  
+Every commit automatically updates the running version.
 
 ## 🚀 Quick Start
 
