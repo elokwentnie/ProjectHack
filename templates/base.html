@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ProjectHack - Build Real Projects for Your CV{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -211,7 +213,7 @@
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3 group">
                     <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg glow group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-2xl">🚀</span>
+                        <span class="text-xl font-bold text-white">&lt;/&gt;</span>
                     </div>
                     <a href="{% url 'projects:home' %}" class="text-2xl font-black">
                         <span class="text-white">Project</span><span class="gradient-text">Hack</span>
