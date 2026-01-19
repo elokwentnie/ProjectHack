@@ -13,7 +13,7 @@
     
     <!-- Success Header -->
     <div class="glass border-2 border-green-500/50 rounded-2xl p-10 mb-8 text-center shadow-2xl glow animate-scale-in">
-        <div class="text-7xl mb-6 animate-pulse-slow">🎉</div>
+        <div class="text-7xl mb-6 animate-pulse-slow">🏆</div>
         <h1 class="text-4xl md:text-5xl font-black text-white mb-3">Congratulations!</h1>
         <p class="text-xl text-gray-300 font-semibold">You've completed <span class="gradient-text">{{ user_session.project.title }}</span></p>
     </div>
@@ -45,6 +45,40 @@
                 {% endfor %}
             </ul>
         </div>
+    </div>
+    
+    <!-- Next Steps -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-8 animate-fade-in-up">
+        <h3 class="text-2xl font-black text-white mb-6 flex items-center">
+            <span class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg glow">💡</span>
+            What's Next?
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4 mb-8">
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">1.</div>
+                <p class="text-gray-300 font-medium">Add this project to your GitHub portfolio</p>
+            </div>
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">2.</div>
+                <p class="text-gray-300 font-medium">Update your CV with the skills and project description above</p>
+            </div>
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">3.</div>
+                <p class="text-gray-300 font-medium">Share your project on LinkedIn with #ProjectHack</p>
+            </div>
+            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
+                <div class="text-2xl mb-2">4.</div>
+                <p class="text-gray-300 font-medium">Start another project to build your portfolio!</p>
+            </div>
+        </div>
+        
+        <a href="{% url 'projects:home' %}" 
+           class="btn-primary inline-flex items-center justify-center w-full md:w-auto text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl">
+            Start Another Project
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+        </a>
     </div>
     
     <!-- CV-Ready Summary -->
@@ -81,74 +115,75 @@
         </button>
     </div>
     
+    <!-- LinkedIn Post Section -->
+    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-8 animate-fade-in-up">
+        <h2 class="text-3xl font-black text-white mb-6 flex items-center">
+            <span class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg">💼</span>
+            Share on LinkedIn
+        </h2>
+        <p class="text-gray-400 mb-6">Ready-to-paste LinkedIn post about your project:</p>
+        
+        <div class="glass-light border border-blue-500/20 rounded-xl p-6 mb-6">
+            <div id="linkedin-post-text" class="text-gray-200 whitespace-pre-wrap leading-relaxed font-medium">
+🚀 Just completed "{{ user_session.project.title }}" with ProjectHack!
+
+⏱️ Completed in {{ timeframe_formatted }}
+💻 Skills learned: {{ technologies|slice:":3"|join:", " }}{% if technologies|length > 3 %} and more{% endif %}
+
+Built using ProjectHack - a platform that helps you build real projects step-by-step!
+
+🌐 Try ProjectHack: {{ site_url }}
+
+#ProjectHack #Tech #Development #Progress #Coding #WebDevelopment{% if user_session.project.track == 'python' %} #Python{% elif user_session.project.track == 'react' %} #React{% elif user_session.project.track == 'nodejs' %} #NodeJS{% elif user_session.project.track == 'frontend' %} #Frontend{% elif user_session.project.track == 'backend' %} #Backend{% elif user_session.project.track == 'fullstack' %} #FullStack{% endif %}
+            </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4">
+            <button onclick="copyLinkedInPost()" 
+                    class="flex-1 glass-light border-2 border-blue-500/50 text-white px-6 py-4 rounded-xl font-black text-lg shadow-xl hover:border-blue-400 transition-all flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <span>Copy to Clipboard</span>
+            </button>
+            <button onclick="shareToLinkedIn()" 
+                    class="flex-1 btn-primary text-white px-6 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                <span>Share to LinkedIn</span>
+            </button>
+        </div>
+    </div>
+    
     <!-- GitHub Submission -->
     <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 mb-8 animate-fade-in-up">
         <h2 class="text-3xl font-black text-white mb-6 flex items-center">
             <span class="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg">🔗</span>
-            Share Your Project
+            Share Your Repository
         </h2>
-        <p class="text-gray-400 mb-6">Submit your GitHub repository link to complete your project:</p>
         
-        {% if user_session.github_repo %}
-            <div class="glass-light border border-green-500/30 rounded-xl p-5 mb-6 glow">
-                <p class="text-green-300 font-semibold mb-2 flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Repository submitted:
-                </p>
-                <a href="{{ user_session.github_repo }}" target="_blank" 
-                   class="text-indigo-400 hover:text-indigo-300 underline font-medium break-all">{{ user_session.github_repo }}</a>
-            </div>
-        {% endif %}
-        
-        <form method="post" action="{% url 'projects:submit_project' user_session.id %}">
-            {% csrf_token %}
-            <div class="flex flex-col sm:flex-row gap-4">
-                <input type="url" name="github_repo" 
-                       placeholder="https://github.com/yourusername/your-project" 
-                       value="{{ user_session.github_repo|default:'' }}"
-                       class="flex-1 px-5 py-4 glass-light border border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-white placeholder-gray-500 font-medium">
-                <button type="submit" 
-                        class="btn-primary text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl">
-                    {% if user_session.github_repo %}Update{% else %}Submit{% endif %} Repository
-                </button>
-            </div>
-        </form>
-    </div>
-    
-    <!-- Next Steps -->
-    <div class="glass rounded-2xl shadow-2xl border border-white/10 p-8 md:p-10 animate-fade-in-up">
-        <h3 class="text-2xl font-black text-white mb-6 flex items-center">
-            <span class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold mr-4 shadow-lg glow">💡</span>
-            What's Next?
-        </h3>
-        <div class="grid md:grid-cols-2 gap-4 mb-8">
-            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
-                <div class="text-2xl mb-2">1.</div>
-                <p class="text-gray-300 font-medium">Add this project to your GitHub portfolio</p>
-            </div>
-            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
-                <div class="text-2xl mb-2">2.</div>
-                <p class="text-gray-300 font-medium">Update your CV with the skills and project description above</p>
-            </div>
-            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
-                <div class="text-2xl mb-2">3.</div>
-                <p class="text-gray-300 font-medium">Share your project on LinkedIn with #ProjectHack</p>
-            </div>
-            <div class="glass-light p-5 rounded-xl border border-cyan-500/20">
-                <div class="text-2xl mb-2">4.</div>
-                <p class="text-gray-300 font-medium">Start another project to build your portfolio!</p>
-            </div>
+        <!-- Warning Message -->
+        <div class="glass-light border border-yellow-500/30 rounded-xl p-5 mb-6">
+            <p class="text-yellow-300 font-semibold mb-2 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                Feature Not Available Yet
+            </p>
+            <p class="text-gray-400 text-sm">The repository submission feature is not ready yet. For now, use the LinkedIn sharing option above to share your project!</p>
         </div>
         
-        <a href="{% url 'projects:home' %}" 
-           class="btn-primary inline-flex items-center justify-center w-full md:w-auto text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl">
-            Start Another Project
-            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-            </svg>
-        </a>
+        <div class="flex flex-col sm:flex-row gap-4">
+            <input type="url" id="github-repo-input" 
+                   placeholder="https://github.com/yourusername/your-project" 
+                   class="flex-1 px-5 py-4 glass-light border border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-white placeholder-gray-500 font-medium"
+                   readonly>
+            <button type="button" onclick="showRepoWarning()"
+                    class="btn-primary text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl">
+                Share Your Repo
+            </button>
+        </div>
     </div>
 </div>
 
@@ -172,6 +207,53 @@ CV Bullet Points:
             console.error('Failed to copy:', err);
             alert('Failed to copy. Please select and copy manually.');
         });
+    }
+    
+    function copyLinkedInPost() {
+        const postText = document.getElementById('linkedin-post-text').textContent.trim();
+        
+        navigator.clipboard.writeText(postText).then(() => {
+            alert('✅ LinkedIn post copied to clipboard!\n\nYou can now paste it in your LinkedIn post.');
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            // Fallback: select text
+            const textElement = document.getElementById('linkedin-post-text');
+            const range = document.createRange();
+            range.selectNodeContents(textElement);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                alert('✅ Text selected and copied!');
+            } catch (e) {
+                alert('Please manually select and copy the text above.');
+            }
+        });
+    }
+    
+    function shareToLinkedIn() {
+        // First copy to clipboard
+        const postText = document.getElementById('linkedin-post-text').textContent.trim();
+        
+        navigator.clipboard.writeText(postText).then(() => {
+            // Open LinkedIn post composer
+            window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank', 'width=800,height=600');
+            
+            // Show helpful message after a short delay
+            setTimeout(() => {
+                alert('✅ LinkedIn post copied to clipboard!\n\nA LinkedIn window has opened. Please:\n1. Click in the post box\n2. Press Ctrl+V (or Cmd+V on Mac) to paste\n3. Click "Post" to share');
+            }, 500);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            // Still open LinkedIn even if copy fails
+            window.open('https://www.linkedin.com/feed/', '_blank');
+            alert('Please manually copy the LinkedIn post text above and paste it in LinkedIn.');
+        });
+    }
+    
+    function showRepoWarning() {
+        alert('⚠️ Repository submission feature is not available yet.\n\nThis feature is coming soon. For now, please use the LinkedIn sharing option above to share your project!');
     }
 </script>
 {% endblock %}

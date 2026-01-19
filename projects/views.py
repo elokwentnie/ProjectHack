@@ -351,11 +351,20 @@ def project_summary(request, session_id):
     # Generate CV-ready summary
     cv_summary = generate_cv_summary(user_session, unique_technologies, completed_steps)
     
+    # Format timeframe for LinkedIn post (e.g., "6h" -> "6 hours")
+    timeframe_hours = user_session.selected_timeframe.replace('h', '')
+    timeframe_formatted = f"{timeframe_hours} hour{'s' if int(timeframe_hours) != 1 else ''}"
+    
+    # Get site URL for LinkedIn sharing
+    site_url = request.build_absolute_uri('/')
+    
     context = {
         'user_session': user_session,
         'technologies': unique_technologies,
         'completed_steps': completed_steps,
         'cv_summary': cv_summary,
+        'timeframe_formatted': timeframe_formatted,
+        'site_url': site_url,
     }
     return render(request, 'projects/project_summary.html', context)
 
