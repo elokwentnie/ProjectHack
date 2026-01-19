@@ -6,6 +6,24 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+## 📊 Project Presentation
+
+📄 **[📥 View Project Presentation (PDF)](docs/FITP-1.0.0_20260119.pdf)** 
+
+**Version:** FITP-1.0.0 | **Date:** January 19, 2026
+
+> The best way to understand ProjectHack is through our presentation! It covers what we do, how we do it, and our vision for the platform.
+
+**What's inside:**
+- ✨ Key Features & Capabilities
+- 🏗️ Architecture & Technical Stack  
+- 🎯 Use Cases & Target Audience
+- 🚀 Future Roadmap & Vision
+
+> 💡 **Tip:** The PDF will open in GitHub's viewer. For the best experience, right-click and select "Save link as..." to download and view in your preferred PDF reader.
+
+---
+
 ## ✨ Features
 
 ### 🎯 Core Features
@@ -232,6 +250,12 @@ ProjectHack is ready to deploy! See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for
 - `ALLOWED_HOSTS` - Your domain(s), comma-separated
 
 **📖 Full deployment guide:** See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for step-by-step instructions for all platforms.
+
+**📚 Additional Documentation:**
+- 📊 [Project Presentation](docs/FITP-1.0.0_20260119.pdf) - Overview and vision
+- 🛠️ [Technical Stack](docs/TECH_STACK.md) - Technologies used
+- 🛣️ [Roadmap](docs/ROADMAP.md) - Future development plans
+- 🔒 [Security Report](docs/SECURITY_REPORT.md) - Security considerations
 
 ## 🛣️ Roadmap
 
