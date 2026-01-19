@@ -49,8 +49,8 @@
                                             peer-checked:shadow-xl peer-checked:glow hover:border-indigo-400/50 hover:shadow-lg card-hover">
                                     <div class="flex items-center justify-between mb-2">
                                         <span class="font-bold text-white text-lg">{{ level_name }}</span>
-                                        <div class="w-5 h-5 border-2 border-gray-500 rounded-full peer-checked:border-indigo-500 peer-checked:bg-indigo-500 flex items-center justify-center transition-all">
-                                            <svg class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div class="radio-circle w-5 h-5 border-2 border-gray-500 rounded-full flex items-center justify-center transition-all">
+                                            <svg class="w-3 h-3 text-white opacity-0 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </div>
@@ -84,20 +84,46 @@
 
 <script>
     // Add visual feedback for radio selection
-    document.querySelectorAll('input[name="experience_level"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            document.querySelectorAll('input[name="experience_level"]').forEach(r => {
-                const card = r.closest('label').querySelector('div');
-                if (r.checked) {
-                    card.classList.add('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
-                    card.classList.remove('border-white/10');
-                } else {
-                    card.classList.remove('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
-                    card.classList.add('border-white/10');
+    function updateRadioStates() {
+        document.querySelectorAll('input[name="experience_level"]').forEach(r => {
+            const label = r.closest('label');
+            const card = label.querySelector('div');
+            const circle = label.querySelector('.radio-circle');
+            const checkmark = circle.querySelector('svg');
+            
+            if (r.checked) {
+                // Update card
+                card.classList.add('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
+                card.classList.remove('border-white/10');
+                // Update circle - make it filled and show checkmark
+                circle.classList.add('border-indigo-500', 'bg-indigo-500');
+                circle.classList.remove('border-gray-500');
+                if (checkmark) {
+                    checkmark.classList.remove('opacity-0');
+                    checkmark.classList.add('opacity-100');
                 }
-            });
+            } else {
+                // Update card
+                card.classList.remove('border-indigo-500', 'bg-gradient-to-br', 'from-indigo-500/20', 'to-purple-500/20', 'shadow-xl', 'glow');
+                card.classList.add('border-white/10');
+                // Update circle - make it unfilled and hide checkmark
+                circle.classList.remove('border-indigo-500', 'bg-indigo-500');
+                circle.classList.add('border-gray-500');
+                if (checkmark) {
+                    checkmark.classList.add('opacity-0');
+                    checkmark.classList.remove('opacity-100');
+                }
+            }
         });
+    }
+    
+    // Update on change
+    document.querySelectorAll('input[name="experience_level"]').forEach(radio => {
+        radio.addEventListener('change', updateRadioStates);
     });
+    
+    // Update on page load (in case one is pre-selected)
+    updateRadioStates();
 </script>
 {% endblock %}
 

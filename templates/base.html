@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ProjectHack - Build Real Projects for Your CV{% endblock %}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/logo.png' %}?v=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/logo.png' %}?v=1.0">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logo.png' %}?v=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo.png' %}?v=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -125,8 +129,36 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            background-size: 200% 200%;
-            animation: gradient 3s ease infinite;
+            display: inline-block;
+            color: transparent !important;
+        }
+        
+        /* Ensure the gradient is visible in links - override any inherited colors */
+        a .gradient-text,
+        a:hover .gradient-text,
+        a:focus .gradient-text,
+        a:visited .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            color: transparent !important;
+            text-decoration: none !important;
+        }
+        
+        /* Prevent link styles from affecting the text */
+        .text-2xl.font-black a,
+        a.text-2xl.font-black {
+            text-decoration: none;
+        }
+        
+        .text-2xl.font-black a:hover .gradient-text,
+        a.text-2xl.font-black:hover .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            color: transparent !important;
         }
         
         .btn-primary {
@@ -211,20 +243,21 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3 group">
-                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg glow group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-xl font-bold text-white">&lt;/&gt;</span>
-                    </div>
-                    <a href="{% url 'projects:home' %}" class="text-2xl font-black">
+                    <img src="{% static 'images/logo.png' %}" alt="ProjectHack Logo" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300">
+                    <a href="{% url 'projects:home' %}" class="text-2xl font-black no-underline hover:no-underline" style="text-decoration: none !important;">
                         <span class="text-white">Project</span><span class="gradient-text">Hack</span>
                     </a>
                 </div>
-                <div class="hidden md:flex items-center space-x-4">
-                    <span class="text-sm font-semibold text-gray-300 bg-white/5 px-4 py-2 rounded-full border border-white/10">Build Real Projects</span>
-                    <span class="text-sm font-semibold text-gray-300 bg-white/5 px-4 py-2 rounded-full border border-white/10">Boost Your CV</span>
+                <div class="hidden md:flex items-center space-x-6">
+                    <span class="text-sm text-gray-400 font-normal">Build Real Projects</span>
+                    <span class="text-sm text-gray-400 font-normal">Boost Your CV</span>
                     <a href="{% url 'projects:onboarding_start' %}?reset=true" 
-                       class="text-xs text-gray-400 hover:text-indigo-400 transition-colors" 
+                       class="w-8 h-8 flex items-center justify-center text-xs text-gray-500 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 hover:border-white/20 transition-all opacity-40 hover:opacity-70 relative group" 
                        title="Reset preferences">
-                        Reset
+                        <span class="font-bold">R</span>
+                        <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-white/10">
+                            Reset preferences
+                        </span>
                     </a>
                 </div>
             </div>
@@ -247,9 +280,16 @@
 
     <footer class="glass border-t border-white/10 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <p class="text-center text-sm text-gray-400 font-medium">
-                ProjectHack - Build real projects, boost your CV, land your first IT job
-            </p>
+            <div class="text-center space-y-3">
+                <p class="text-sm text-gray-400 font-medium">
+                    ProjectHack - Build real projects, boost your CV, land your first IT job
+                </p>
+                <p class="text-xs text-gray-500">
+                    Created by <a href="https://www.linkedin.com/in/ndsz/" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-indigo-300 transition-colors underline">@ndsz</a>
+                    <span class="mx-2">•</span>
+                    This is a work-in-progress prototype and is not a finished product. All rights reserved.
+                </p>
+            </div>
         </div>
     </footer>
 

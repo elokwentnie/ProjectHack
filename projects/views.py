@@ -507,13 +507,21 @@ def onboarding_start(request):
         experience_level = request.POST.get('experience_level')
         if experience_level:
             user_profile.experience_level = experience_level
+            # Map experience level to difficulty
+            experience_to_difficulty = {
+                'beginner': 'beginner',
+                'some_experience': 'beginner',
+                'intermediate': 'intermediate',
+                'advanced': 'advanced',
+            }
+            user_profile.preferred_difficulty = experience_to_difficulty.get(experience_level, 'intermediate')
             user_profile.save()
-            return redirect('projects:onboarding_technologies')
+        return redirect('projects:onboarding_technologies')
     
     context = {
         'experience_levels': UserProfile.EXPERIENCE_LEVELS,
         'current_step': 1,
-        'total_steps': 4,
+        'total_steps': 3,
     }
     return render(request, 'projects/onboarding/experience.html', context)
 
@@ -543,19 +551,42 @@ def onboarding_technologies(request):
         selected_technologies = request.POST.getlist('technologies')
         if selected_technologies:
             user_profile.interested_technologies = selected_technologies
+            # Infer preferred tracks from selected technologies
+            # Map technologies to tracks
+            tech_to_track = {
+                'HTML': 'frontend', 'CSS': 'frontend', 'JavaScript': 'frontend', 
+                'React': 'react', 'Vue.js': 'frontend', 'Angular': 'frontend',
+                'TypeScript': 'frontend', 'Tailwind CSS': 'frontend', 'SASS': 'frontend',
+                'Python': 'python', 'Django': 'backend', 'Flask': 'backend',
+                'Pandas': 'python', 'NumPy': 'python', 'Matplotlib': 'python', 'FastAPI': 'python',
+                'Node.js': 'nodejs', 'Express': 'nodejs', 'REST API': 'backend',
+                'GraphQL': 'backend', 'PostgreSQL': 'backend', 'MongoDB': 'backend',
+                'Redux': 'react', 'React Router': 'react', 'Next.js': 'fullstack',
+            }
+            inferred_tracks = set()
+            for tech in selected_technologies:
+                if tech in tech_to_track:
+                    inferred_tracks.add(tech_to_track[tech])
+            # Also check for fullstack technologies
+            if any(tech in selected_technologies for tech in ['React', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL', 'Next.js']):
+                if 'React' in selected_technologies and ('Node.js' in selected_technologies or 'Express' in selected_technologies):
+                    inferred_tracks.add('fullstack')
+            
+            if inferred_tracks:
+                user_profile.preferred_tracks = list(inferred_tracks)
             user_profile.save()
-            return redirect('projects:onboarding_tracks')
+            return redirect('projects:onboarding_interests')
     
     context = {
         'all_technologies': all_technologies,
         'current_step': 2,
-        'total_steps': 4,
+        'total_steps': 3,
     }
     return render(request, 'projects/onboarding/technologies.html', context)
 
 
 def onboarding_tracks(request):
-    """Onboarding Question 3: Preferred Tracks"""
+    """Onboarding Question 2: Preferred Tracks"""
     session_id = request.session.get('session_id')
     if not session_id:
         return redirect('projects:onboarding_start')
@@ -567,30 +598,22 @@ def onboarding_tracks(request):
     
     if request.method == 'POST':
         preferred_tracks = request.POST.getlist('tracks')
-        preferred_difficulty = request.POST.get('difficulty', '')
-        preferred_timeframe = request.POST.get('timeframe', '')
         
         if preferred_tracks:
             user_profile.preferred_tracks = preferred_tracks
-        if preferred_difficulty:
-            user_profile.preferred_difficulty = preferred_difficulty
-        if preferred_timeframe:
-            user_profile.preferred_timeframe = preferred_timeframe
         user_profile.save()
         return redirect('projects:onboarding_interests')
     
     context = {
         'tracks': Project.TRACK_CHOICES,
-        'difficulties': Project.DIFFICULTY_CHOICES,
-        'timeframes': ProjectStep.TIMEFRAME_CHOICES,
-        'current_step': 3,
-        'total_steps': 4,
+        'current_step': 2,
+        'total_steps': 3,
     }
     return render(request, 'projects/onboarding/tracks.html', context)
 
 
 def onboarding_interests(request):
-    """Onboarding Question 4: Interests/Keywords"""
+    """Onboarding Question 3: Timeframe and Interests/Keywords"""
     session_id = request.session.get('session_id')
     if not session_id:
         return redirect('projects:onboarding_start')
@@ -609,19 +632,24 @@ def onboarding_interests(request):
     ]
     
     if request.method == 'POST':
+        preferred_timeframe = request.POST.get('timeframe', '')
         interests = request.POST.get('interests', '')
+        
+        if preferred_timeframe:
+            user_profile.preferred_timeframe = preferred_timeframe
         if interests:
             # Split by comma and clean up
             interest_list = [i.strip() for i in interests.split(',') if i.strip()]
             user_profile.interests_keywords = interest_list
-            user_profile.onboarding_completed = True
-            user_profile.save()
-            return redirect('projects:onboarding_complete')
+        user_profile.onboarding_completed = True
+        user_profile.save()
+        return redirect('projects:onboarding_complete')
     
     context = {
         'sample_keywords': sample_keywords,
-        'current_step': 4,
-        'total_steps': 4,
+        'timeframes': ProjectStep.TIMEFRAME_CHOICES,
+        'current_step': 3,
+        'total_steps': 3,
     }
     return render(request, 'projects/onboarding/interests.html', context)
 

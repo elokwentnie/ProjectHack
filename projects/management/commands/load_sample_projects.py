@@ -227,6 +227,142 @@ You'll integrate a React frontend with a Node.js/Express backend, handle CORS, i
             self.stdout.write(f'Created project: {project12.title}')
             self._add_fullstack_todo_steps(project12)
         
+        # Project 13: Quiz App (Beginner - Frontend)
+        project13, created = Project.objects.get_or_create(
+            title='Interactive Quiz Application',
+            defaults={
+                'description': '''Build an interactive quiz app with multiple-choice questions, score tracking, and instant feedback. This project teaches you how to build engaging, interactive web applications.
+
+You'll learn how to manage application state, handle user interactions, calculate scores, and provide real-time feedback. Great for learning JavaScript fundamentals and building user-friendly interfaces.'''
+            }
+        )
+        project13.difficulty = 'beginner'
+        project13.track = 'frontend'
+        project13.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project13.title}')
+            self._add_quiz_app_steps(project13)
+        
+        # Project 14: Recipe Finder App (Intermediate - Frontend)
+        project14, created = Project.objects.get_or_create(
+            title='Recipe Finder App',
+            defaults={
+                'description': '''Create a recipe finder application that searches recipes by ingredients or cuisine type. Integrate with a recipe API and display results beautifully.
+
+You'll learn API integration, search functionality, responsive design, and how to create an engaging food-related web application. Perfect for learning how to work with external data sources.'''
+            }
+        )
+        project14.difficulty = 'intermediate'
+        project14.track = 'frontend'
+        project14.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project14.title}')
+            self._add_recipe_finder_steps(project14)
+        
+        # Project 15: Note-Taking App (Intermediate - React)
+        project15, created = Project.objects.get_or_create(
+            title='React Note-Taking App',
+            defaults={
+                'description': '''Build a beautiful note-taking application using React. Create, edit, delete, and organize notes with categories and search functionality.
+
+You'll learn React state management, component composition, local storage integration, and how to build a practical productivity application. Great for understanding React patterns and best practices.'''
+            }
+        )
+        project15.difficulty = 'intermediate'
+        project15.track = 'react'
+        project15.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project15.title}')
+            self._add_note_taking_steps(project15)
+        
+        # Project 16: URL Shortener API (Beginner - Backend)
+        project16, created = Project.objects.get_or_create(
+            title='URL Shortener API',
+            defaults={
+                'description': '''Build a URL shortener service using Python and Flask. Create short, shareable links from long URLs, track click statistics, and manage link expiration.
+
+You'll learn about URL encoding, database operations, REST API design, and how to build a practical backend service. Essential skills for backend development.'''
+            }
+        )
+        project16.difficulty = 'beginner'
+        project16.track = 'backend'
+        project16.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project16.title}')
+            self._add_url_shortener_steps(project16)
+        
+        # Project 17: Chat API (Advanced - Node.js)
+        project17, created = Project.objects.get_or_create(
+            title='Real-time Chat API',
+            defaults={
+                'description': '''Build a real-time chat API using Node.js, Express, and WebSockets. Support multiple chat rooms, user authentication, and message persistence.
+
+You'll learn WebSocket programming, real-time communication, event-driven architecture, and how to build scalable chat applications. Advanced backend development skills.'''
+            }
+        )
+        project17.difficulty = 'advanced'
+        project17.track = 'nodejs'
+        project17.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project17.title}')
+            self._add_chat_api_steps(project17)
+        
+        # Project 18: Web Scraper (Intermediate - Python)
+        project18, created = Project.objects.get_or_create(
+            title='Web Scraper with Python',
+            defaults={
+                'description': '''Create a Python web scraper to extract data from websites. Learn about HTML parsing, handling dynamic content, and respecting robots.txt.
+
+You'll work with BeautifulSoup, requests library, handle pagination, save data to files, and understand web scraping ethics. Great for learning data extraction and automation.'''
+            }
+        )
+        project18.difficulty = 'intermediate'
+        project18.track = 'python'
+        project18.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project18.title}')
+            self._add_web_scraper_steps(project18)
+        
+        # Project 19: Blog Platform (Advanced - Full-Stack)
+        project19, created = Project.objects.get_or_create(
+            title='Full-Stack Blog Platform',
+            defaults={
+                'description': '''Build a complete blog platform with a React frontend and Node.js backend. Include features like post creation, editing, comments, user authentication, and rich text editing.
+
+You'll learn full-stack architecture, user authentication, file uploads, rich text editors, and how to build a complete content management system. Comprehensive full-stack project.'''
+            }
+        )
+        project19.difficulty = 'advanced'
+        project19.track = 'fullstack'
+        project19.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project19.title}')
+            self._add_blog_platform_steps(project19)
+        
+        # Project 20: E-commerce API (Advanced - Backend)
+        project20, created = Project.objects.get_or_create(
+            title='E-commerce REST API',
+            defaults={
+                'description': '''Build a complete e-commerce REST API with Django REST Framework. Implement products, categories, shopping cart, orders, and payment processing integration.
+
+You'll learn advanced Django patterns, complex database relationships, API design, payment gateway integration, and how to build production-ready backend systems.'''
+            }
+        )
+        project20.difficulty = 'advanced'
+        project20.track = 'backend'
+        project20.save()
+        
+        if created:
+            self.stdout.write(f'Created project: {project20.title}')
+            self._add_ecommerce_api_steps(project20)
+        
         self.stdout.write(self.style.SUCCESS('Successfully loaded sample projects!'))
         self.stdout.write(f'Total projects: {Project.objects.count()}')
         self.stdout.write(f'Total steps: {ProjectStep.objects.count()}')
@@ -659,6 +795,225 @@ You'll integrate a React frontend with a Node.js/Express backend, handle CORS, i
         steps_48h = steps_24h + [
             {'step_number': 13, 'title': 'Add Real-time Updates', 'description': 'Implement WebSockets for real-time collaboration. Multiple users can see updates instantly.', 'technologies': ['WebSockets', 'Socket.io', 'Real-time'], 'estimated_time': 120, 'learning_outcomes': 'Real-time web applications'},
             {'step_number': 14, 'title': 'Add User Authentication', 'description': 'Implement user authentication and authorization. Secure the application.', 'technologies': ['Authentication', 'JWT', 'Security'], 'estimated_time': 120, 'learning_outcomes': 'Full-stack authentication'},
+        ]
+        for step_data in steps_48h:
+            ProjectStep.objects.create(project=project, timeframe='48h', **step_data)
+    
+    def _add_quiz_app_steps(self, project):
+        """Add steps for Quiz App"""
+        steps_6h = [
+            {'step_number': 1, 'title': 'Setup and HTML Structure', 'description': 'Create HTML structure: question display, answer options, next button, score display, and result screen.', 'technologies': ['HTML', 'Semantic HTML'], 'estimated_time': 45, 'learning_outcomes': 'HTML structure for interactive apps'},
+            {'step_number': 2, 'title': 'Style the Quiz App', 'description': 'Design a clean, engaging quiz interface with CSS. Style questions, buttons, and result screen.', 'technologies': ['CSS', 'UI Design'], 'estimated_time': 75, 'learning_outcomes': 'CSS styling and UI design'},
+            {'step_number': 3, 'title': 'Create Question Data Structure', 'description': 'Set up JavaScript array with quiz questions, answers, and correct answer index.', 'technologies': ['JavaScript', 'Data Structures'], 'estimated_time': 45, 'learning_outcomes': 'Data structure design'},
+            {'step_number': 4, 'title': 'Display Questions and Answers', 'description': 'Write JavaScript to display questions and answer options dynamically. Navigate through questions.', 'technologies': ['JavaScript', 'DOM Manipulation'], 'estimated_time': 90, 'learning_outcomes': 'Dynamic content rendering'},
+            {'step_number': 5, 'title': 'Handle Answer Selection', 'description': 'Implement answer selection logic. Highlight selected answer and check if it\'s correct.', 'technologies': ['JavaScript', 'Event Handling'], 'estimated_time': 75, 'learning_outcomes': 'User interaction handling'},
+            {'step_number': 6, 'title': 'Calculate and Display Score', 'description': 'Track correct answers, calculate score, and display final results with feedback.', 'technologies': ['JavaScript', 'Score Calculation'], 'estimated_time': 60, 'learning_outcomes': 'Score tracking and results display'},
+        ]
+        for step_data in steps_6h:
+            ProjectStep.objects.create(project=project, timeframe='6h', **step_data)
+        
+        steps_12h = steps_6h + [
+            {'step_number': 7, 'title': 'Add Timer Functionality', 'description': 'Implement countdown timer for each question. Handle timeout and auto-advance.', 'technologies': ['JavaScript', 'Timers', 'setInterval'], 'estimated_time': 60, 'learning_outcomes': 'Timer implementation'},
+            {'step_number': 8, 'title': 'Add Multiple Quiz Categories', 'description': 'Create different quiz categories. Allow users to select quiz type.', 'technologies': ['JavaScript', 'Data Organization'], 'estimated_time': 75, 'learning_outcomes': 'Category management'},
+        ]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_24h = steps_12h + [
+            {'step_number': 9, 'title': 'Add Progress Tracking', 'description': 'Show progress bar, question number, and percentage completion.', 'technologies': ['JavaScript', 'Progress Tracking'], 'estimated_time': 45, 'learning_outcomes': 'Progress visualization'},
+            {'step_number': 10, 'title': 'Add Results History', 'description': 'Save quiz results to local storage. Display previous scores and statistics.', 'technologies': ['Local Storage', 'JavaScript'], 'estimated_time': 60, 'learning_outcomes': 'Data persistence'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+    
+    def _add_recipe_finder_steps(self, project):
+        """Add steps for Recipe Finder App"""
+        steps_12h = [
+            {'step_number': 1, 'title': 'Setup and API Key', 'description': 'Set up project and get API key from a recipe API (Spoonacular or Edamam). Understand API documentation.', 'technologies': ['API', 'API Keys'], 'estimated_time': 45, 'learning_outcomes': 'API setup and authentication'},
+            {'step_number': 2, 'title': 'Create HTML Structure', 'description': 'Build HTML: search input, filter options, recipe cards container, and modal for recipe details.', 'technologies': ['HTML', 'Modal Design'], 'estimated_time': 60, 'learning_outcomes': 'HTML structure for data display'},
+            {'step_number': 3, 'title': 'Style Recipe Cards', 'description': 'Design beautiful recipe cards with images, titles, cooking time, and difficulty. Make it responsive.', 'technologies': ['CSS', 'Card Design', 'Responsive'], 'estimated_time': 90, 'learning_outcomes': 'Card-based UI design'},
+            {'step_number': 4, 'title': 'Implement Search Functionality', 'description': 'Create search form. Make API call on submit and handle response.', 'technologies': ['JavaScript', 'Fetch API', 'Forms'], 'estimated_time': 90, 'learning_outcomes': 'Search implementation'},
+            {'step_number': 5, 'title': 'Display Recipe Results', 'description': 'Parse API response and display recipes in cards. Show images, titles, and basic info.', 'technologies': ['JavaScript', 'JSON', 'DOM'], 'estimated_time': 90, 'learning_outcomes': 'Data rendering'},
+            {'step_number': 6, 'title': 'Add Recipe Details Modal', 'description': 'Create modal to show full recipe: ingredients, instructions, and nutritional info.', 'technologies': ['JavaScript', 'Modal', 'UI'], 'estimated_time': 75, 'learning_outcomes': 'Modal implementation'},
+            {'step_number': 7, 'title': 'Add Filtering Options', 'description': 'Add filters: cuisine type, dietary restrictions, cooking time. Filter API results.', 'technologies': ['JavaScript', 'Filtering', 'API'], 'estimated_time': 90, 'learning_outcomes': 'Advanced filtering'},
+            {'step_number': 8, 'title': 'Add Favorites Feature', 'description': 'Allow users to save favorite recipes to local storage. Display favorites section.', 'technologies': ['Local Storage', 'JavaScript'], 'estimated_time': 60, 'learning_outcomes': 'Favorites functionality'},
+        ]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_6h = steps_12h[:5]
+        for step_data in steps_6h:
+            ProjectStep.objects.create(project=project, timeframe='6h', **step_data)
+        
+        steps_24h = steps_12h + [
+            {'step_number': 9, 'title': 'Add Meal Planning', 'description': 'Implement meal planning feature. Plan meals for the week.', 'technologies': ['JavaScript', 'Planning'], 'estimated_time': 90, 'learning_outcomes': 'Planning features'},
+            {'step_number': 10, 'title': 'Add Shopping List Generator', 'description': 'Generate shopping list from selected recipes. Export to text file.', 'technologies': ['JavaScript', 'Export'], 'estimated_time': 75, 'learning_outcomes': 'List generation'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+    
+    def _add_note_taking_steps(self, project):
+        """Add steps for React Note-Taking App"""
+        steps_12h = [
+            {'step_number': 1, 'title': 'Setup React Project', 'description': 'Create React app, set up project structure. Install necessary dependencies.', 'technologies': ['React', 'Setup'], 'estimated_time': 30, 'learning_outcomes': 'React project initialization'},
+            {'step_number': 2, 'title': 'Create Note Component', 'description': 'Build Note component. Understand component structure and props.', 'technologies': ['React', 'Components', 'Props'], 'estimated_time': 60, 'learning_outcomes': 'Component creation'},
+            {'step_number': 3, 'title': 'Implement useState for Notes', 'description': 'Use useState to manage notes array. Add functionality to create new notes.', 'technologies': ['React Hooks', 'useState'], 'estimated_time': 75, 'learning_outcomes': 'State management with hooks'},
+            {'step_number': 4, 'title': 'Add Edit Functionality', 'description': 'Implement note editing. Allow inline editing and save changes.', 'technologies': ['React', 'State Updates'], 'estimated_time': 90, 'learning_outcomes': 'Update operations'},
+            {'step_number': 5, 'title': 'Add Delete Functionality', 'description': 'Implement note deletion with confirmation. Update state immutably.', 'technologies': ['React', 'Delete Operations'], 'estimated_time': 45, 'learning_outcomes': 'Delete operations'},
+            {'step_number': 6, 'title': 'Add Categories/Tags', 'description': 'Implement category system. Allow users to organize notes by category.', 'technologies': ['React', 'Data Organization'], 'estimated_time': 75, 'learning_outcomes': 'Categorization'},
+            {'step_number': 7, 'title': 'Add Search Functionality', 'description': 'Implement search to find notes by title or content. Real-time filtering.', 'technologies': ['React', 'Search', 'Filtering'], 'estimated_time': 60, 'learning_outcomes': 'Search implementation'},
+            {'step_number': 8, 'title': 'Add Local Storage Integration', 'description': 'Use useEffect to save notes to local storage. Load on component mount.', 'technologies': ['useEffect', 'Local Storage'], 'estimated_time': 60, 'learning_outcomes': 'Data persistence'},
+        ]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_6h = steps_12h[:5]
+        for step_data in steps_6h:
+            ProjectStep.objects.create(project=project, timeframe='6h', **step_data)
+        
+        steps_24h = steps_12h + [
+            {'step_number': 9, 'title': 'Add Rich Text Editing', 'description': 'Integrate rich text editor. Allow formatting and markdown support.', 'technologies': ['Rich Text', 'Libraries'], 'estimated_time': 120, 'learning_outcomes': 'Rich text editing'},
+            {'step_number': 10, 'title': 'Add Export/Import', 'description': 'Export notes to JSON/Markdown. Import notes from file.', 'technologies': ['Export', 'Import', 'File Handling'], 'estimated_time': 90, 'learning_outcomes': 'Data export/import'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+    
+    def _add_url_shortener_steps(self, project):
+        """Add steps for URL Shortener API"""
+        steps_6h = [
+            {'step_number': 1, 'title': 'Setup Flask Project', 'description': 'Create Flask app, set up project structure. Install Flask and necessary packages.', 'technologies': ['Flask', 'Python'], 'estimated_time': 30, 'learning_outcomes': 'Flask setup'},
+            {'step_number': 2, 'title': 'Design URL Data Model', 'description': 'Create data structure to store original URL and short code. Use in-memory storage or simple file.', 'technologies': ['Python', 'Data Modeling'], 'estimated_time': 45, 'learning_outcomes': 'Data modeling'},
+            {'step_number': 3, 'title': 'Generate Short Codes', 'description': 'Implement function to generate unique short codes. Use random string or hash-based approach.', 'technologies': ['Python', 'String Generation'], 'estimated_time': 60, 'learning_outcomes': 'Code generation algorithms'},
+            {'step_number': 4, 'title': 'Create Shorten Endpoint', 'description': 'Create POST endpoint to accept long URL, generate short code, and return shortened URL.', 'technologies': ['Flask', 'REST API', 'POST'], 'estimated_time': 75, 'learning_outcomes': 'POST endpoint creation'},
+            {'step_number': 5, 'title': 'Create Redirect Endpoint', 'description': 'Create GET endpoint that takes short code and redirects to original URL.', 'technologies': ['Flask', 'Redirect', 'GET'], 'estimated_time': 60, 'learning_outcomes': 'Redirect implementation'},
+            {'step_number': 6, 'title': 'Add URL Validation', 'description': 'Validate URL format. Handle invalid URLs with appropriate error messages.', 'technologies': ['Python', 'Validation', 'Error Handling'], 'estimated_time': 45, 'learning_outcomes': 'Input validation'},
+        ]
+        for step_data in steps_6h:
+            ProjectStep.objects.create(project=project, timeframe='6h', **step_data)
+        
+        steps_12h = steps_6h + [
+            {'step_number': 7, 'title': 'Add Database Integration', 'description': 'Replace in-memory storage with SQLite database. Store URLs persistently.', 'technologies': ['Database', 'SQLite', 'Flask'], 'estimated_time': 90, 'learning_outcomes': 'Database integration'},
+            {'step_number': 8, 'title': 'Add Click Tracking', 'description': 'Track number of clicks for each shortened URL. Create analytics endpoint.', 'technologies': ['Analytics', 'Database'], 'estimated_time': 75, 'learning_outcomes': 'Analytics tracking'},
+            {'step_number': 9, 'title': 'Add Expiration Dates', 'description': 'Allow URLs to have expiration dates. Handle expired URLs appropriately.', 'technologies': ['Date Handling', 'Validation'], 'estimated_time': 60, 'learning_outcomes': 'Expiration logic'},
+        ]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_24h = steps_12h + [
+            {'step_number': 10, 'title': 'Add Custom Short Codes', 'description': 'Allow users to create custom short codes. Validate uniqueness.', 'technologies': ['Validation', 'Customization'], 'estimated_time': 60, 'learning_outcomes': 'Custom code generation'},
+            {'step_number': 11, 'title': 'Add Frontend Interface', 'description': 'Create simple HTML/CSS/JS frontend to interact with API.', 'technologies': ['Frontend', 'API Integration'], 'estimated_time': 120, 'learning_outcomes': 'Frontend-backend integration'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+    
+    def _add_chat_api_steps(self, project):
+        """Add steps for Real-time Chat API"""
+        steps_24h = [
+            {'step_number': 1, 'title': 'Setup Node.js Project', 'description': 'Initialize Node.js project, install Express and Socket.io. Set up server structure.', 'technologies': ['Node.js', 'Express', 'Socket.io'], 'estimated_time': 45, 'learning_outcomes': 'Node.js and WebSocket setup'},
+            {'step_number': 2, 'title': 'Configure Socket.io Server', 'description': 'Set up Socket.io on Express server. Handle connection events.', 'technologies': ['Socket.io', 'WebSockets'], 'estimated_time': 60, 'learning_outcomes': 'WebSocket server configuration'},
+            {'step_number': 3, 'title': 'Implement Message Broadcasting', 'description': 'Broadcast messages to all connected clients. Handle message events.', 'technologies': ['Socket.io', 'Event Handling'], 'estimated_time': 90, 'learning_outcomes': 'Real-time messaging'},
+            {'step_number': 4, 'title': 'Add Room Support', 'description': 'Implement chat rooms. Allow users to join/leave rooms.', 'technologies': ['Socket.io', 'Rooms'], 'estimated_time': 90, 'learning_outcomes': 'Room management'},
+            {'step_number': 5, 'title': 'Add User Authentication', 'description': 'Implement user authentication. Identify users in messages.', 'technologies': ['Authentication', 'JWT'], 'estimated_time': 120, 'learning_outcomes': 'User authentication'},
+            {'step_number': 6, 'title': 'Store Messages in Database', 'description': 'Save messages to MongoDB or PostgreSQL. Implement message persistence.', 'technologies': ['Database', 'Message Storage'], 'estimated_time': 120, 'learning_outcomes': 'Message persistence'},
+            {'step_number': 7, 'title': 'Add Typing Indicators', 'description': 'Implement typing indicators. Show when users are typing.', 'technologies': ['Socket.io', 'Real-time Events'], 'estimated_time': 60, 'learning_outcomes': 'Real-time indicators'},
+            {'step_number': 8, 'title': 'Add User Presence', 'description': 'Track online/offline status. Show active users in rooms.', 'technologies': ['Presence', 'Socket.io'], 'estimated_time': 75, 'learning_outcomes': 'User presence tracking'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+        
+        steps_12h = steps_24h[:5]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_48h = steps_24h + [
+            {'step_number': 9, 'title': 'Add File Uploads', 'description': 'Implement file/image uploads in chat. Handle file sharing.', 'technologies': ['File Upload', 'Multer'], 'estimated_time': 120, 'learning_outcomes': 'File handling'},
+            {'step_number': 10, 'title': 'Add Message Reactions', 'description': 'Implement emoji reactions to messages. Real-time reaction updates.', 'technologies': ['Real-time', 'Features'], 'estimated_time': 90, 'learning_outcomes': 'Advanced features'},
+        ]
+        for step_data in steps_48h:
+            ProjectStep.objects.create(project=project, timeframe='48h', **step_data)
+    
+    def _add_web_scraper_steps(self, project):
+        """Add steps for Web Scraper"""
+        steps_12h = [
+            {'step_number': 1, 'title': 'Setup Python Environment', 'description': 'Install BeautifulSoup, requests, and pandas. Set up project structure.', 'technologies': ['Python', 'BeautifulSoup', 'requests'], 'estimated_time': 30, 'learning_outcomes': 'Environment setup'},
+            {'step_number': 2, 'title': 'Make HTTP Requests', 'description': 'Use requests library to fetch web pages. Handle different response codes.', 'technologies': ['requests', 'HTTP'], 'estimated_time': 60, 'learning_outcomes': 'HTTP requests'},
+            {'step_number': 3, 'title': 'Parse HTML Content', 'description': 'Use BeautifulSoup to parse HTML. Understand DOM structure.', 'technologies': ['BeautifulSoup', 'HTML Parsing'], 'estimated_time': 90, 'learning_outcomes': 'HTML parsing'},
+            {'step_number': 4, 'title': 'Extract Data', 'description': 'Extract specific data (text, links, images) using CSS selectors or XPath.', 'technologies': ['BeautifulSoup', 'Selectors'], 'estimated_time': 90, 'learning_outcomes': 'Data extraction'},
+            {'step_number': 5, 'title': 'Handle Pagination', 'description': 'Navigate through multiple pages. Extract data from all pages.', 'technologies': ['Python', 'Pagination'], 'estimated_time': 75, 'learning_outcomes': 'Pagination handling'},
+            {'step_number': 6, 'title': 'Save Data to CSV/JSON', 'description': 'Save extracted data to CSV or JSON files. Organize data properly.', 'technologies': ['pandas', 'CSV', 'JSON'], 'estimated_time': 60, 'learning_outcomes': 'Data export'},
+            {'step_number': 7, 'title': 'Add Error Handling', 'description': 'Handle network errors, missing elements, and rate limiting. Add retries.', 'technologies': ['Error Handling', 'Retries'], 'estimated_time': 75, 'learning_outcomes': 'Robust error handling'},
+            {'step_number': 8, 'title': 'Respect robots.txt', 'description': 'Check and respect robots.txt file. Understand web scraping ethics.', 'technologies': ['robots.txt', 'Ethics'], 'estimated_time': 45, 'learning_outcomes': 'Ethical scraping'},
+        ]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_6h = steps_12h[:5]
+        for step_data in steps_6h:
+            ProjectStep.objects.create(project=project, timeframe='6h', **step_data)
+        
+        steps_24h = steps_12h + [
+            {'step_number': 9, 'title': 'Handle JavaScript-Rendered Content', 'description': 'Use Selenium to scrape dynamic content. Handle SPAs.', 'technologies': ['Selenium', 'Dynamic Content'], 'estimated_time': 120, 'learning_outcomes': 'Dynamic content scraping'},
+            {'step_number': 10, 'title': 'Add Rate Limiting', 'description': 'Implement delays between requests. Be respectful to servers.', 'technologies': ['Rate Limiting', 'Delays'], 'estimated_time': 45, 'learning_outcomes': 'Rate limiting'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+    
+    def _add_blog_platform_steps(self, project):
+        """Add steps for Full-Stack Blog Platform"""
+        steps_24h = [
+            {'step_number': 1, 'title': 'Setup Backend (Node.js/Express)', 'description': 'Create Express server, set up project structure. Install necessary packages.', 'technologies': ['Node.js', 'Express'], 'estimated_time': 45, 'learning_outcomes': 'Backend setup'},
+            {'step_number': 2, 'title': 'Create Database Models', 'description': 'Design database schema: users, posts, comments. Set up MongoDB or PostgreSQL.', 'technologies': ['Database', 'Models'], 'estimated_time': 90, 'learning_outcomes': 'Database design'},
+            {'step_number': 3, 'title': 'Implement User Authentication', 'description': 'Add JWT authentication. Create login and registration endpoints.', 'technologies': ['Authentication', 'JWT'], 'estimated_time': 120, 'learning_outcomes': 'User authentication'},
+            {'step_number': 4, 'title': 'Create Post CRUD API', 'description': 'Build API endpoints for creating, reading, updating, and deleting blog posts.', 'technologies': ['REST API', 'CRUD'], 'estimated_time': 120, 'learning_outcomes': 'CRUD operations'},
+            {'step_number': 5, 'title': 'Add Comment System', 'description': 'Implement comment endpoints. Allow nested comments and replies.', 'technologies': ['Comments', 'Nested Data'], 'estimated_time': 90, 'learning_outcomes': 'Comment system'},
+            {'step_number': 6, 'title': 'Setup React Frontend', 'description': 'Create React app. Set up routing and project structure.', 'technologies': ['React', 'React Router'], 'estimated_time': 60, 'learning_outcomes': 'Frontend setup'},
+            {'step_number': 7, 'title': 'Build Post List Component', 'description': 'Create component to display list of blog posts. Fetch from API.', 'technologies': ['React', 'API Integration'], 'estimated_time': 90, 'learning_outcomes': 'Data fetching'},
+            {'step_number': 8, 'title': 'Build Post Editor', 'description': 'Create rich text editor for writing posts. Integrate editor library.', 'technologies': ['Rich Text Editor', 'React'], 'estimated_time': 120, 'learning_outcomes': 'Rich text editing'},
+            {'step_number': 9, 'title': 'Build Post Detail Page', 'description': 'Create detailed post view with comments. Handle comments display and creation.', 'technologies': ['React', 'Detail Views'], 'estimated_time': 90, 'learning_outcomes': 'Detail page design'},
+            {'step_number': 10, 'title': 'Add Image Upload', 'description': 'Implement image upload for posts. Handle file uploads on backend.', 'technologies': ['File Upload', 'Multer'], 'estimated_time': 120, 'learning_outcomes': 'File handling'},
+            {'step_number': 11, 'title': 'Connect Frontend to Backend', 'description': 'Integrate React frontend with API. Handle authentication and protected routes.', 'technologies': ['Integration', 'Protected Routes'], 'estimated_time': 90, 'learning_outcomes': 'Full-stack integration'},
+            {'step_number': 12, 'title': 'Deploy Full-Stack App', 'description': 'Deploy backend and frontend. Set up environment variables and database.', 'technologies': ['Deployment', 'Full-Stack'], 'estimated_time': 120, 'learning_outcomes': 'Production deployment'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+        
+        steps_12h = steps_24h[:8]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_48h = steps_24h + [
+            {'step_number': 13, 'title': 'Add Search and Filtering', 'description': 'Implement search functionality and category filtering.', 'technologies': ['Search', 'Filtering'], 'estimated_time': 90, 'learning_outcomes': 'Search implementation'},
+            {'step_number': 14, 'title': 'Add Admin Dashboard', 'description': 'Create admin panel for managing posts, users, and comments.', 'technologies': ['Admin Panel', 'Dashboard'], 'estimated_time': 120, 'learning_outcomes': 'Admin features'},
+        ]
+        for step_data in steps_48h:
+            ProjectStep.objects.create(project=project, timeframe='48h', **step_data)
+    
+    def _add_ecommerce_api_steps(self, project):
+        """Add steps for E-commerce REST API"""
+        steps_24h = [
+            {'step_number': 1, 'title': 'Setup Django Project', 'description': 'Create Django project, install Django REST Framework. Set up project structure.', 'technologies': ['Django', 'Django REST Framework'], 'estimated_time': 45, 'learning_outcomes': 'Django setup'},
+            {'step_number': 2, 'title': 'Design Database Models', 'description': 'Create models: Product, Category, Cart, Order, OrderItem. Understand relationships.', 'technologies': ['Django ORM', 'Models'], 'estimated_time': 120, 'learning_outcomes': 'Complex database design'},
+            {'step_number': 3, 'title': 'Create Product API', 'description': 'Build API endpoints for products: list, detail, create, update, delete.', 'technologies': ['DRF', 'ViewSets'], 'estimated_time': 90, 'learning_outcomes': 'Product API'},
+            {'step_number': 4, 'title': 'Implement Category System', 'description': 'Create category API. Allow nested categories and filtering by category.', 'technologies': ['Categories', 'Filtering'], 'estimated_time': 75, 'learning_outcomes': 'Category management'},
+            {'step_number': 5, 'title': 'Create Shopping Cart API', 'description': 'Implement shopping cart endpoints. Add/remove items, update quantities.', 'technologies': ['Cart', 'Session Management'], 'estimated_time': 120, 'learning_outcomes': 'Cart implementation'},
+            {'step_number': 6, 'title': 'Implement Order Processing', 'description': 'Create order API. Convert cart to order, handle order status.', 'technologies': ['Orders', 'State Management'], 'estimated_time': 120, 'learning_outcomes': 'Order processing'},
+            {'step_number': 7, 'title': 'Add User Authentication', 'description': 'Implement user registration and authentication. JWT tokens.', 'technologies': ['Authentication', 'JWT'], 'estimated_time': 90, 'learning_outcomes': 'User authentication'},
+            {'step_number': 8, 'title': 'Add Payment Integration', 'description': 'Integrate payment gateway (Stripe). Handle payment processing.', 'technologies': ['Payment', 'Stripe'], 'estimated_time': 120, 'learning_outcomes': 'Payment integration'},
+            {'step_number': 9, 'title': 'Add Product Images', 'description': 'Implement image upload for products. Handle multiple images per product.', 'technologies': ['File Upload', 'Images'], 'estimated_time': 90, 'learning_outcomes': 'Image handling'},
+            {'step_number': 10, 'title': 'Add Inventory Management', 'description': 'Track product stock. Handle out-of-stock scenarios.', 'technologies': ['Inventory', 'Stock Management'], 'estimated_time': 75, 'learning_outcomes': 'Inventory tracking'},
+            {'step_number': 11, 'title': 'Add Search and Filtering', 'description': 'Implement product search and advanced filtering (price, category, rating).', 'technologies': ['Search', 'Filtering', 'DRF'], 'estimated_time': 90, 'learning_outcomes': 'Advanced search'},
+            {'step_number': 12, 'title': 'Add API Documentation', 'description': 'Document API with Swagger/OpenAPI. Create comprehensive API docs.', 'technologies': ['Documentation', 'Swagger'], 'estimated_time': 60, 'learning_outcomes': 'API documentation'},
+        ]
+        for step_data in steps_24h:
+            ProjectStep.objects.create(project=project, timeframe='24h', **step_data)
+        
+        steps_12h = steps_24h[:7]
+        for step_data in steps_12h:
+            ProjectStep.objects.create(project=project, timeframe='12h', **step_data)
+        
+        steps_48h = steps_24h + [
+            {'step_number': 13, 'title': 'Add Recommendation System', 'description': 'Implement product recommendations based on user behavior.', 'technologies': ['Recommendations', 'Algorithms'], 'estimated_time': 120, 'learning_outcomes': 'Recommendation algorithms'},
+            {'step_number': 14, 'title': 'Add Admin Dashboard API', 'description': 'Create admin endpoints for managing products, orders, and users.', 'technologies': ['Admin', 'Management'], 'estimated_time': 90, 'learning_outcomes': 'Admin features'},
         ]
         for step_data in steps_48h:
             ProjectStep.objects.create(project=project, timeframe='48h', **step_data)

@@ -37,6 +37,19 @@
     </div>
 </div>
 
+<div class="text-center mb-16 animate-fade-in-up">
+    <a href="{% url 'projects:onboarding_start' %}?reset=true" 
+       class="inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-xl font-bold rounded-xl shadow-2xl hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 hover:scale-105 transition-all duration-300 hover:shadow-indigo-500/50">
+        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        <span>Update Preferences</span>
+        <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+    </a>
+</div>
+
 {% if recommended_projects %}
 <div class="mb-16">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">

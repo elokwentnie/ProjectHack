@@ -201,7 +201,7 @@ Visit `http://127.0.0.1:8000/admin/` after creating a superuser.
 
 ## 🚀 Deployment
 
-ProjectHack is ready to deploy! See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
+ProjectHack is ready to deploy! See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed instructions.
 
 ### Quick Deploy Options:
 
@@ -231,11 +231,11 @@ ProjectHack is ready to deploy! See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed 
 - `DEBUG` - Set to `False` in production
 - `ALLOWED_HOSTS` - Your domain(s), comma-separated
 
-**📖 Full deployment guide:** See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions for all platforms.
+**📖 Full deployment guide:** See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for step-by-step instructions for all platforms.
 
 ## 🛣️ Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for detailed development plans.
+See [docs/ROADMAP.md](docs/ROADMAP.md) for detailed development plans.
 
 ### Upcoming Features
 - ⏸️ Pause/Resume Timer

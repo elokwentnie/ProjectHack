@@ -171,9 +171,10 @@ class UserProfile(models.Model):
         if self.preferred_difficulty:
             queryset = queryset.filter(difficulty=self.preferred_difficulty)
         
-        # If no preferences, return all projects
+        # If filtering resulted in no projects, fall back to all projects
         if not queryset.exists():
             queryset = Project.objects.filter(is_generated=False)
         
+        # If still no projects, return empty queryset
         return queryset[:limit]
 
