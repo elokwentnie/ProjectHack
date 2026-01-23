@@ -37,11 +37,11 @@
 - **📥 Downloadable Resources** - Access CSV files, sample data, and other project resources
 
 ### 🎨 User Experience
-- **🌙 Modern Dark Theme** - Beautiful, modern UI with glassmorphism effects
-- **📱 Fully Responsive** - Works perfectly on mobile, tablet, and desktop
-- **✨ Smooth Animations** - Polished animations and transitions
-- **🚀 No Login Required** - Session-based, start building immediately
-- **🎯 Personalized Recommendations** - AI-powered project suggestions
+- **Modern Dark Theme** - Beautiful, modern UI with glassmorphism effects
+- **Fully Responsive** - Works perfectly on mobile, tablet, and desktop
+- **Smooth Animations** - Polished animations and transitions
+- **No Login Required** - Session-based, start building immediately
+- **Personalized Recommendations** - AI-powered project suggestions
 
 ### 📦 Project Tracks
 - **Frontend Development** - HTML, CSS, JavaScript projects
@@ -110,7 +110,7 @@ Every commit automatically updates the running version.
 
 ## 📚 Available Projects
 
-The platform includes **12+ diverse projects** across 6 tracks:
+The platform includes **20+ diverse projects** across 6 tracks:
 
 ### Frontend Development
 - Personal Portfolio Website (Beginner) - 6h, 12h, 24h, 48h
@@ -216,46 +216,6 @@ python manage.py migrate
 
 ### Accessing Admin Panel
 Visit `http://127.0.0.1:8000/admin/` after creating a superuser.
-
-## 🚀 Deployment
-
-ProjectHack is ready to deploy! See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed instructions.
-
-### Quick Deploy Options:
-
-**🆓 Free Options:**
-- **[Render](https://render.com)** ⭐ Recommended - Easiest setup, free tier
-- **[Railway](https://railway.app)** - Simple deployment, good free tier
-- **[Fly.io](https://fly.io)** - Global edge deployment
-- **[PythonAnywhere](https://www.pythonanywhere.com)** - Beginner-friendly
-
-**💰 Paid Options:**
-- **Heroku** - Established platform ($7/month)
-- **DigitalOcean** - Simple pricing ($5/month)
-
-### Quick Start (Render - Recommended):
-
-1. Sign up at [render.com](https://render.com)
-2. Create new Web Service → Connect GitHub repo
-3. Build Command: `pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput`
-4. Start Command: `gunicorn projecthack.wsgi`
-5. Set Environment Variables:
-   - `SECRET_KEY` - Generate with: `python generate_secret_key.py`
-   - `DEBUG=False`
-   - `ALLOWED_HOSTS=your-app-name.onrender.com`
-
-### Environment Variables Needed:
-- `SECRET_KEY` - Django secret key (generate new one for production)
-- `DEBUG` - Set to `False` in production
-- `ALLOWED_HOSTS` - Your domain(s), comma-separated
-
-**📖 Full deployment guide:** See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for step-by-step instructions for all platforms.
-
-**📚 Additional Documentation:**
-- 📊 [Project Presentation](docs/FITP-1.0.0_20260119.pdf) - Overview and vision
-- 🛠️ [Technical Stack](docs/TECH_STACK.md) - Technologies used
-- 🛣️ [Roadmap](docs/ROADMAP.md) - Future development plans
-- 🔒 [Security Report](docs/SECURITY_REPORT.md) - Security considerations
 
 ## 🛣️ Roadmap
 
